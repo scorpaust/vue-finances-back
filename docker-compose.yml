@@ -1,23 +1,24 @@
 version: "3.8"
+
 services:
   api:
     build: .
     ports:
       - "4000:4000"
     environment:
-      ? CLIENT_HOSTS
-      ? JWT_SECRET
-      ? NODE_ENV
-      PRISMA_ENDPOINT: http://prisma:4466
-      ? PRISMA_SERVICE
-      ? PRISMA_STAGE
-      ? PRISMA_SERVICE_SECRET
+      CLIENT_HOSTS:
+      JWT_SECRET:
+      NODE_ENV:
+      PRISMA_ENDPOINT: http://prisma.localhost
+      PRISMA_SERVICE:
+      PRISMA_STAGE:
+      PRISMA_SERVICE_SECRET:
     command: npm run dev
     volumes:
       - .:/usr/app
 
   prisma:
-    image: prismagraphql/prisma:1.28
+    image: prismagraphql/prisma:1.27
     restart: always
     ports:
       - "4466:4466"
@@ -34,7 +35,6 @@ services:
             password: prisma
             migrations: true
             rawAccess: true
-
   postgres:
     image: postgres:10.3
     restart: always
@@ -46,15 +46,5 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
 
-  teste-pgadmin-compose:
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: "dinismiguelcosta@hotmail.com"
-      PGADMIN_DEFAULT_PASSWORD: "rootpass"
-    ports:
-      - "16543:80"
-    depends_on:
-      - api
-
 volumes:
-  ? postgres
+  postgres:
